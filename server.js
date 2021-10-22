@@ -25,31 +25,13 @@ mongoose.connect(process.env.DB_URL,{
   .then(res => console.log("Connected to DB"))
   .catch(err => console.log(err))
 
-app.use(function (req, res, next) {
-    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-res.setHeader("Access-Control-Allow-Credentials", "true");
-res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-    next();
-});
-
-
-//upload route for uploading images.
-const storage = multer.diskStorage({
-	destination: (req,file,cb) =>  {
-		cb(null,"images");
-	},
-	filename: (req,file,cb) => {
-		cb(null,req.body.name);
-	}
-})
-
-const upload = multer({storage: storage});
-
-app.post('/api/upload',upload.single("file"),(req,res) => {
-	res.status(200).json("File has been uploaded")
-})
-
+// app.use(function (req, res, next) {
+//     res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+// res.setHeader("Access-Control-Allow-Credentials", "true");
+// res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+// res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+//     next();
+// });
 
 
 //routes

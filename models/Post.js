@@ -8,10 +8,12 @@ const PostSchema = new mongoose.Schema({
 	desc: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 	sanitizedHtml: {
 		type: String,
 		required: true,
+		unique: true
 	},
 	photo: {
 		type: String,
@@ -20,6 +22,7 @@ const PostSchema = new mongoose.Schema({
 	username: {
 		type: String,
 		required: true,
+		unique: true
 	},
 	categories: {
 		type: Array,
