@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
@@ -12,21 +12,28 @@ const indexRoute = require("./routes/index");
 
 const path = require('path');
 
+const multer = require("multer");
+const path = require("path");
+
 dotenv.config();
 
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
+app.use(express.json({ limit: "50mb" }));
+app.use(
+  express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
+);
 
-app.use("/images",express.static(path.join(__dirname,"/images")));
+app.use("/images", express.static(path.join(__dirname, "/images")));
 
 //db
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DB_URL,{
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(res => console.log("Connected to DB"))
-  .catch(err => console.log(err))
+process.env.DB_URL;
+mongoose
+  .connect("mongodb://localhost:27017/webu", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((res) => console.log("Connected to DB"))
+  .catch((err) => console.log(err));
 
 app.use(function (req, res, next) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -36,7 +43,6 @@ app.use(function (req, res, next) {
      next();
 });
 
-
 //routes
 
 app.use("/api",indexRoute);
@@ -45,6 +51,10 @@ app.use("/api/users",userRoute);
 app.use("/api/posts",postRoute);
 app.use("/api/categories",categoryRoute);
 
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
+app.use("/api/posts", postRoute);
+app.use("/api/categories", categoryRoute);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT,() => console.log(`Server is active on port ${PORT}`))
+app.listen(PORT, () => console.log(`Server is active on port ${PORT}`));
