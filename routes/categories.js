@@ -1,7 +1,8 @@
 const {
 	createCategory,
 	getAllCategories
-} = require("../controllers/categories")
+} = require("../controllers/categories");
+const router = require("express").Router();
 
 //create a new catgeory
 router.post('/',createCategory)
