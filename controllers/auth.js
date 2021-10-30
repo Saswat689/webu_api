@@ -5,13 +5,18 @@ const jwt = require("jsonwebtoken");
 const UserModel = require("../models/User");
 const SECRETKEY = "secret";
 const { promisify } = require("util");
+const {
+  fbLoginUrl,
+  getAccessTokenFromCode,
+  getFacebookUserData,
+} = require("../utils/fbconfig");
 
 exports.registerUser = async function (req, res) {
   try {
     // 1) check if the user exists
     let user = await UserModel.findOne({ email: req.body.email });
     if (user) {
-      // user already logged in
+      // user already exists
       res.status(403).json({
         success: false,
         message: "User already exists",
@@ -118,4 +123,37 @@ exports.protect = async (req, res, next) => {
       message: "wrong token login again",
     });
   }
+};
+//FB:redirect url= http://localhost:5000/api/auth/redirect/fb
+exports.fbRedirect = async (req, res) => {
+  const code = req.query.code;
+  if (!code) {
+    return res.status(501).json({
+      success: false,
+      message: "something went wrong with fb login code",
+    });
+  }
+
+  try {
+    const access_token = await getAccessTokenFromCode(code);
+    const data = await getFacebookUserData(access_token);
+    // here as the user is authenticated we send him the token,all fb data need not to be stored
+    let token = jwt.sign({ id: data.id, fb: true }, SECRETKEY, {
+      expiresIn: "5d",
+    });
+    res.json({
+      data,
+      token,
+    });
+  } catch (err) {
+    return res.status(501).json({
+      success: false,
+      message: `something went wrong with acess fb${err}`,
+    });
+  }
+};
+exports.fbGetLoginUrl = (req, res) => {
+  res.json({
+    login_url: fbLoginUrl,
+  });
 };
