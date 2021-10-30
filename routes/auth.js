@@ -1,10 +1,16 @@
 const {
+
   registerUser,
   loginUser,
   protect,
   fbRedirect,
   fbGetLoginUrl,
 } = require("../controllers/auth");
+
+const router = require("express").Router();
+
+const { registerUser, loginUser, protect } = require("../controllers/auth");
+
 const express = require("express");
 const router = express.Router();
 //register
