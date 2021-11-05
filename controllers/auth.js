@@ -11,6 +11,12 @@ const {
   getFacebookUserData,
 } = require("../utils/fbconfig");
 
+const {
+  getGoogleAccessTokenFromCode,
+  getGoogleUserInfo,
+  googleLoginUrl,
+} = require("../utils/googleAuthConfig");
+
 exports.registerUser = async function (req, res) {
   try {
     // 1) check if the user exists
@@ -156,4 +162,37 @@ exports.fbGetLoginUrl = (req, res) => {
   res.json({
     login_url: fbLoginUrl,
   });
+};
+// google auth
+exports.getGoogleLoginUrl = (req, res) => {
+  res.json({
+    login_url: googleLoginUrl,
+  });
+};
+// google redirect
+exports.googleRedirect = async (req, res) => {
+  const code = req.query.code;
+  if (!code) {
+    return res.status(501).json({
+      success: false,
+      message: "something went wrong with google login code",
+    });
+  }
+  try {
+    const access_token = await getGoogleAccessTokenFromCode(code);
+    const data = await getGoogleUserInfo(access_token);
+    // here as the user is authenticated we send him the token,all fb data need not to be stored
+    let token = jwt.sign({ id: data.id, fb: true }, SECRETKEY, {
+      expiresIn: "5d",
+    });
+    res.json({
+      data,
+      token,
+    });
+  } catch (err) {
+    return res.status(501).json({
+      success: false,
+      message: `something went wrong with acess fb${err}`,
+    });
+  }
 };

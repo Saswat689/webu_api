@@ -15,12 +15,14 @@
     "marked": "^3.0.4",
     "mongoose": "^6.0.7",
     "multer": "^1.4.3",
+    "nodemon": "^2.0.14",
     "query-string": "^7.0.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node server.js"
+    "test": "node server.js",
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
