@@ -1,10 +1,4 @@
 const {
-	createCategory,
-	getAllCategories
-} = require("../controllers/categories");
-const router = require("express").Router();
-
-const {
   createCategory,
   getAllCategories,
 } = require("../controllers/categories");
