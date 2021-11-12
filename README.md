@@ -1,12 +1,21 @@
-# Webu_api
+# Backend files for blog app
 
-Backend files for blog app
+A really flexible and ready to use node.js backend for your next blog project. Design your frontend or visit my webu_client to grab them.
+
+## Features 🚀
+
+As a web based application. This contains alll the features you might expect.
+
+- JWT,google and facebook auth
+- create,update,delete posts
+- likes functionality
+- Comments functionality
+- Mongodb Database
+- protection for routes
 
 ## Getting started
 
-Clone this repo and run **npm start**
+Clone the repo and add your fb id,google id,jwt secret, db uri and run `npm start`
 
-If you have any issues contact me saswat689@gmail.com
 
-:exclamation: **Note this is a private repository and should not be shared to others untill the permission of the creator.**
-
+See you in the next build :smile:
